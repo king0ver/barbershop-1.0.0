@@ -1,10 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>barbershop</groupId>
-  <artifactId>barbershop</artifactId>
+  <parent>
+    <artifactId>barbershop</artifactId>
+    <groupId>barbershop</groupId>
+    <version>1.0.0</version>
+  </parent>
+  <groupId>barbershop-web</groupId>
+  <artifactId>barbershop-web</artifactId>
   <version>1.0.0</version>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>barbershop-web</module>
-  </modules>
+  <packaging>war</packaging>
 </project>
