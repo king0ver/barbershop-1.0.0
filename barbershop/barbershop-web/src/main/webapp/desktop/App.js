@@ -27,16 +27,16 @@ Ext.define('MyDesktop.App', {
 
         'Ext.ux.desktop.ShortcutModel',
 
-        'MyDesktop.SystemStatus',
-        'MyDesktop.VideoWindow',
-        'MyDesktop.GridWindow',
-        'MyDesktop.TabWindow',
-        'MyDesktop.AccordionWindow',
-        'MyDesktop.Notepad',
-        'MyDesktop.BogusMenuModule',
-        'MyDesktop.BogusModule',
-
-//        'MyDesktop.Blockalanche',
+//      'MyDesktop.SystemStatus',
+//      'MyDesktop.VideoWindow',
+//      'MyDesktop.GridWindow',
+//      'MyDesktop.TabWindow',
+//      'MyDesktop.AccordionWindow',
+//      'MyDesktop.Notepad',
+//      'MyDesktop.BogusMenuModule',
+//      'MyDesktop.BogusModule',
+//      'MyDesktop.Blockalanche',
+        
         'MyDesktop.Settings'
     ],
 
@@ -50,15 +50,15 @@ Ext.define('MyDesktop.App', {
 
     getModules : function(){
         return [
-            new MyDesktop.VideoWindow(),
+            //new MyDesktop.VideoWindow(),
             //new MyDesktop.Blockalanche(),
-            new MyDesktop.SystemStatus(),
-            new MyDesktop.GridWindow(),
-            new MyDesktop.TabWindow(),
-            new MyDesktop.AccordionWindow(),
-            new MyDesktop.Notepad(),
-            new MyDesktop.BogusMenuModule(),
-            new MyDesktop.BogusModule()
+            //new MyDesktop.SystemStatus(),
+            //new MyDesktop.GridWindow(),
+            //new MyDesktop.TabWindow(),
+            //new MyDesktop.AccordionWindow(),
+            //new MyDesktop.Notepad(),
+            //new MyDesktop.BogusMenuModule(),
+            //new MyDesktop.BogusModule()
         ];
     },
 
@@ -69,16 +69,16 @@ Ext.define('MyDesktop.App', {
             //cls: 'ux-desktop-black',
 
             contextMenuItems: [
-                { text: 'Change Settings', handler: me.onSettings, scope: me }
+               // { text: 'Change Settings', handler: me.onSettings, scope: me }
             ],
 
             shortcuts: Ext.create('Ext.data.Store', {
                 model: 'Ext.ux.desktop.ShortcutModel',
                 data: [
-                    { name: 'Grid Window', iconCls: 'grid-shortcut', module: 'grid-win' },
-                    { name: 'Accordion Window', iconCls: 'accordion-shortcut', module: 'acc-win' },
-                    { name: 'Notepad', iconCls: 'notepad-shortcut', module: 'notepad' },
-                    { name: 'System Status', iconCls: 'cpu-shortcut', module: 'systemstatus'}
+                //    { name: 'Grid Window', iconCls: 'grid-shortcut', module: 'grid-win' },
+                //    { name: 'Accordion Window', iconCls: 'accordion-shortcut', module: 'acc-win' },
+                //   { name: 'Notepad', iconCls: 'notepad-shortcut', module: 'notepad' },
+                //    { name: 'System Status', iconCls: 'cpu-shortcut', module: 'systemstatus'}
                 ]
             }),
 
@@ -97,7 +97,7 @@ Ext.define('MyDesktop.App', {
             height: 300,
             toolConfig: {
                 width: 100,
-                items: [
+                items: [      
                     {
                         text:'Settings',
                         iconCls:'settings',
@@ -121,8 +121,8 @@ Ext.define('MyDesktop.App', {
 
         return Ext.apply(ret, {
             quickStart: [
-                { name: 'Accordion Window', iconCls: 'accordion', module: 'acc-win' },
-                { name: 'Grid Window', iconCls: 'icon-grid', module: 'grid-win' }
+            //    { name: 'Accordion Window', iconCls: 'accordion', module: 'acc-win' },
+            //    { name: 'Grid Window', iconCls: 'icon-grid', module: 'grid-win' }
             ],
             trayItems: [
                 { xtype: 'trayclock', flex: 1 }

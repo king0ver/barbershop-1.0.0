@@ -7,4 +7,31 @@
   <modules>
   	<module>barbershop-web</module>
   </modules>
+  
+  <dependencies>
+	  <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-ext</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-ext</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+	</dependencies>
+	
+	<properties>
+		<slf4j.version>1.6.1</slf4j.version>
+	</properties>
 </project>
