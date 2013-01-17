@@ -12,6 +12,11 @@
     <bean class="org.springframework.web.servlet.mvc. 
             annotation.AnnotationMethodHandlerAdapter" /> --> 
             
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources 
+    directory -->
+    <mvc:resources mapping="/resources/**" location="/resources/" />   
+  
+         
     <!-- Enables the Spring MVC @Controller programming model -->      
     <mvc:annotation-driven validator="validator" />
     
@@ -49,7 +54,6 @@
 		<property name="mediaTypes">
 	      <map>
 	        <entry key="json" value="application/json" />
-	        <entry key="jsonp" value="application/javascript" />
 	      </map>
 	    </property>
 	    <property name="defaultViews">

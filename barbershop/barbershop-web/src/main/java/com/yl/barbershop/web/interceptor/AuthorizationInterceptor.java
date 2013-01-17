@@ -8,6 +8,8 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yl.barbershop.web.annotation.AuthRequired;
+import com.yl.barbershop.web.util.AuthLevel;
 import com.yl.barbershop.web.util.Constants;
 import com.yl.barbershop.web.util.RequestUtil;
 
@@ -23,6 +25,12 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             return true;
         }
         
+        HandlerMethod method = (HandlerMethod)handler;
+        AuthLevel level = getAuthLevel(method);
+        if(level == AuthLevel.NONE){
+        	return true;
+        }
+        
         if(checkAuth(request)){
         	return true;
         }
@@ -31,8 +39,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             // TODO: 对于4xx/5xx错误是否需要使用统一的JsonPackageWrapper格式？
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } else {
-            //response.sendRedirect("/barbershop/user/login");
-        	//request.getRequestDispatcher("/user/login").forward(request, response);
+            response.sendRedirect(Constants.LOGIN_URL);
         	return true;
         }
 
@@ -48,7 +55,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 	 */
 	private boolean checkAuth(HttpServletRequest request){
 		
-		Object o = request.getAttribute(Constants.LOGINNAME);
+		Object o = request.getSession().getAttribute(Constants.LOGINNAME);
 		String userName = o == null ? null : (String)o;
 		if(StringUtils.isEmpty(userName)){
 			return false;
@@ -68,7 +75,16 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 			HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 		
-
+	}
+	
+	private AuthLevel getAuthLevel(HandlerMethod method){
+		
+	    AuthRequired ar = method.getMethodAnnotation(AuthRequired.class);
+	    if(ar == null){
+	    	ar = method.getBeanType().getAnnotation(AuthRequired.class);
+	    }
+		
+	    return ar == null ? AuthLevel.STRICT : ar.value();
 	}
 
 }

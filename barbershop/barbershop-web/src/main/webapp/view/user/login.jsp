@@ -3,8 +3,10 @@
 <html>
 <head>
 <title>登录页面</title>
-<link rel="stylesheet" type="text/css" href="../../extjs4/resources/css/ext-all.css" />
-<script type="text/javascript" src="../../extjs4/ext-all.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/extjs4/resources/css/ext-all.css"/>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/desktop.css" />
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/extjs4/ext-all.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/resources/app/login/app.js"></script>
 </head>
 <body>
 
