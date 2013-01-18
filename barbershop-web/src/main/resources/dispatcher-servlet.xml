@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc"
+  	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="  
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+    <context:annotation-config /> 
+    <!-- 把标记了@Controller注解的类转换为bean --> 
+    <context:component-scan base-package="com.yl.barbershop.web.controller" />
+    <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 
+    <bean class="org.springframework.web.servlet.mvc. 
+            annotation.AnnotationMethodHandlerAdapter" /> --> 
+            
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources 
+    directory -->
+    <mvc:resources mapping="/resources/**" location="/resources/" />   
+  
+         
+    <!-- Enables the Spring MVC @Controller programming model -->      
+    <mvc:annotation-driven validator="validator" />
+    
+    <bean id="applicationPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <property name="ignoreUnresolvablePlaceholders" value="true" />
+	    <property name="locations">
+	      <list>
+	     	<!-- 
+		        <value>classpath:dbconfig.properties</value>
+		        <value>classpath:application.properties</value>
+	         --> 
+	      </list>
+	    </property>
+	 </bean>
+	 
+	 <mvc:interceptors>
+	    <bean id="authorizationInterceptor" 
+	    	class="com.yl.barbershop.web.interceptor.AuthorizationInterceptor">
+	    </bean>
+	  </mvc:interceptors>
+           
+      <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+	    <property name="order" value="1" />	
+	    <!-- 用于开启 /userinfo/123?format=json 的支持  默认是true-->  
+		<property name="favorParameter" value="true"/>
+	    <!-- 用于关闭 /userinfo/123.json 的支持  默认是true-->  
+	    <property name="favorPathExtension" value="false"/>
+	    <!-- 设置为true以忽略对Accept Header的支持  -->
+	    <property name="ignoreAcceptHeader" value="true" />
+	    	
+	    <!-- 在没有扩展名时即: "/user/1" 时的默认展现形式 -->  
+		<property name="defaultContentType" value="text/html"/>
+		
+		<!-- 扩展名至mimeType的映射,即 /user.json => application/json -->  
+		<property name="mediaTypes">
+	      <map>
+	        <entry key="json" value="application/json" />
+	      </map>
+	    </property>
+	    <property name="defaultViews">
+	      <list>
+	        <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+	          <property name="modelKey" value="data" />
+	          <property name="extractValueFromSingleKeyModel" value="true" />
+	        </bean>
+	      </list>
+	    </property>
+	</bean>
+	<!-- Controller 跳转的JSP页面路径 和 文件的后缀 --> 
+	<bean id="viewResolver" 
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+       	<property name="prefix" value="/view/" />
+	    <property name="suffix" value=".jsp" />
+	    <property name="contentType" value="text/html; charset=utf-8" />
+    </bean> 
+    
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+   
+    <bean id="annotationMethodHandlerAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	    <!-- TODO: 需确认messageConverters是否可被删除 -->
+	    <property name="messageConverters">
+	      <list>
+	        <ref bean="mappingJacksonHttpMessageConverter" />
+	      </list>
+	    </property>
+	    <property name="webBindingInitializer">
+	      <bean id="configurableWebBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+	        <property name="validator">
+	          <ref bean="validator" />
+	        </property>
+	      </bean>
+	    </property>
+	  </bean>
+	  <!-- 需确认mappingJacksonHttpMessageConverter的配置是否可被删除  -->
+	  <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+	    <property name="supportedMediaTypes">
+	      <list>
+	        <value>text/html;charset=UTF-8</value>
+	      </list>
+	    </property>
+	  </bean>
+	  
+	   <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+	  <!-- 需确认restTemplate的配置是否可被删除  -->  
+	  <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+	    <property name="messageConverters">
+	      <list>
+	        <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter" />
+	        <bean id="formHttpMessageConverter" class="org.springframework.http.converter.FormHttpMessageConverter" />
+	      </list>
+	    </property>
+	  </bean>
+   
+    <!-- 文件上传 -->    
+    <bean id="multipartResolver" 
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+        <!-- set the max upload size100MB --> 
+        <property name="maxUploadSize"> 
+            <value>104857600</value> 
+        </property> 
+        <property name="maxInMemorySize"> 
+            <value>1024000</value> 
+        </property> 
+    </bean> 
+</beans>
