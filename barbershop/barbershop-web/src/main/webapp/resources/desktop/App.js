@@ -27,22 +27,22 @@ Ext.define('MyDesktop.App', {
 
         'Ext.ux.desktop.ShortcutModel',
 
-//      'MyDesktop.SystemStatus',
-//      'MyDesktop.VideoWindow',
-//      'MyDesktop.GridWindow',
-//      'MyDesktop.TabWindow',
-//      'MyDesktop.AccordionWindow',
-//      'MyDesktop.Notepad',
-//      'MyDesktop.BogusMenuModule',
-//      'MyDesktop.BogusModule',
-//      'MyDesktop.Blockalanche',
+      'MyDesktop.SystemStatus',
+      'MyDesktop.VideoWindow',
+      'MyDesktop.GridWindow',
+      'MyDesktop.TabWindow',
+      'MyDesktop.AccordionWindow',
+      'MyDesktop.Notepad',
+      'MyDesktop.BogusMenuModule',
+      'MyDesktop.BogusModule',
+      'MyDesktop.Blockalanche',
         
         'MyDesktop.Settings'
     ],
    
     constructor : function(config){
     	this.userName = config.userName;
-    	init();
+    	this.init();
     },
     
     init: function() {
@@ -55,15 +55,15 @@ Ext.define('MyDesktop.App', {
 
     getModules : function(){
         return [
-            //new MyDesktop.VideoWindow(),
-            //new MyDesktop.Blockalanche(),
-            //new MyDesktop.SystemStatus(),
-            //new MyDesktop.GridWindow(),
-            //new MyDesktop.TabWindow(),
-            //new MyDesktop.AccordionWindow(),
-            //new MyDesktop.Notepad(),
-            //new MyDesktop.BogusMenuModule(),
-            //new MyDesktop.BogusModule()
+           new MyDesktop.VideoWindow(),
+           new MyDesktop.Blockalanche(),
+           new MyDesktop.SystemStatus(),
+           new MyDesktop.GridWindow(),
+           new MyDesktop.TabWindow(),
+           new MyDesktop.AccordionWindow(),
+           new MyDesktop.Notepad(),
+           new MyDesktop.BogusMenuModule(),
+           new MyDesktop.BogusModule()
         ];
     },
 
@@ -111,7 +111,7 @@ Ext.define('MyDesktop.App', {
                     },
                     '-',
                     {
-                        text:'Logout',
+                        text:'退出登录',
                         iconCls:'logout',
                         handler: me.onLogout,
                         scope: me
@@ -136,7 +136,18 @@ Ext.define('MyDesktop.App', {
     },
 
     onLogout: function () {
-        Ext.Msg.confirm('Logout', 'Are you sure you want to logout?');
+        Ext.Msg.confirm('退出', '你真的要退出系统吗?',function(button,text){
+        	if(button == 'yes'){
+        		Ext.Ajax.request({
+        			url : '../user/logout/'+this.userName,
+        			method : 'POST',
+        			async : false,
+        			success : function(reponse){
+        				window.location = "/barbershop/user/login";
+        			}
+        		});        		
+        	}
+        });
     },
 
     onSettings: function () {

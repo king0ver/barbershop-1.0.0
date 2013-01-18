@@ -53,6 +53,16 @@ public class UserController {
 		return json;
 	}
 	
+	@AuthRequired(AuthLevel.NONE)
+	@RequestMapping(value="/logout/{userName}",method=RequestMethod.POST,produces = "application/json")
+	public @ResponseBody JsonPackageWrapper logout(@PathVariable String userName,HttpServletRequest request){
+		
+		JsonPackageWrapper json = new JsonPackageWrapper();	
+		request.getSession().removeAttribute(Constants.LOGINNAME);
+					
+		return json;
+	}
+	
 	@AuthRequired
 	@RequestMapping(value="/index",method=RequestMethod.GET)
 	public String index(){
